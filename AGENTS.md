@@ -1,28 +1,30 @@
 # AGENTS
 
-This repo contains a Python API demo and a Next.js web app.
+This repo contains a SpoonOS ReAct API server and supporting Python code.
 
 ## Layout
-- `api/`: Python demo scripts and requirements.
-- `spoon-agent-web/`: Next.js app (App Router).
-- `codex_wrapper.ps1`: helper script.
+- `spoonos_server/`: FastAPI server, agents, tools, and configs.
+- `main.py`: Uvicorn entrypoint (`main:app`).
+- `pyproject.toml` / `requirements.txt`: Python packaging and dependencies.
+- `.env.example`: Environment variable template.
 
-## Python API (api/)
+## Python API (root)
 - Create venv (PowerShell):
   - `python -m venv .venv`
   - `./.venv/Scripts/Activate.ps1`
 - Install deps:
   - `pip install -e .`
   - Optional extras: `pip install ".[memory]"`
-- Configure API key in `api/.env`:
+- Configure API key in `.env`:
   - `OPENROUTER_API_KEY=sk-xxxx`
 - Run demo:
-  - `python api/streaming_chatbot.py`
+  - `uvicorn spoonos_server.server.app:app --host 0.0.0.0 --port 8000`
+  - Or `uvicorn main:app --host 0.0.0.0 --port 8000`
 
-## Web app (spoon-agent-web/)
-- Install deps: `npm install`
-- Run dev server: `npm run dev`
-- Edit entry page: `spoon-agent-web/app/page.tsx`
+## Skills (project)
+- Local skills live in `spoonos_server/skills/<skill-name>/SKILL.md`.
+- Add a skill by creating a new folder with a `SKILL.md` file.
+- Skill discovery is file-based (see `spoonos_server/skills/registry.py`).
 
 ## Notes
 - Prefer minimal, focused changes.
